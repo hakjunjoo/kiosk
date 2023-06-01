@@ -12,6 +12,7 @@ public class Kiosk {
     static Product[] frozenCustardArr = new Product[5];
     static Product[] drinkArr = new Product[5];
     static Product[] beerArr = new Product[2];
+
     static Product[][] products = {burgerArr, frozenCustardArr, drinkArr, beerArr};
 
     static int cnt = 1; // 주문 번호 초기화
@@ -34,6 +35,7 @@ public class Kiosk {
         burgerArr[3] = new Product("Cheeseburger          ", 6.9, "포테이토 번과 비프패티, 치즈가 토핑된 치즈버거");
         burgerArr[4] = new Product("Hamburger             ", 5.4, "비프패티를 기반으로 야채가 들어간 기본버거");
 
+        //burger 추가 메뉴
         //custard
         frozenCustardArr[0] = new Product("Shakes                ", 5.9, "바닐라, 초콜렛, 솔티드 카라멜, 스트로베리, 커피");
         frozenCustardArr[1] = new Product("Shake of the Week     ", 6.5, "특별한 커스터드 플레이버");
@@ -56,6 +58,7 @@ public class Kiosk {
     // 메인 메뉴판 화면 출력
     public static void mainMeun() {
         int i = 0;
+        System.out.println("================================================");
         System.out.println("\"SHAKESHACK BURGER 에 오신걸 환영합니다.\"");
         System.out.println("아래 메뉴판을 보시고 메뉴를 골라 번호를 입력해주세요.");
         System.out.println("\n[ SHAKESHAKCK MENU ]");
@@ -72,88 +75,125 @@ public class Kiosk {
     }
 
     //상품 메뉴판 화면 출력
-
-    public static void coiceMeun(int n) throws InterruptedException {
+    public static void choiceMenu(int n) throws InterruptedException {
         int i=0;
         switch (n) {
-            case 1 : {
+            case 0 -> {
+                double salePrice = 0.0;
+                for (int j = 0; j < Order.totalWish.size(); j++) {  // 총 판매금액 합치기
+                    salePrice += Order.totalWish.get(j).getPrice();
+                }
+                System.out.println("================================================");
+                System.out.println("[ 총 판매상품 목록 현황 ]");
+                for (Product totalPro : Order.totalWish) {
+                    System.out.println("- " + totalPro.getName() + "| " + totalPro.getPrice());
+                }
+                System.out.println("\n[ 총 판매금액 현황 ]");
+                System.out.println("현재까지 총 판매된 금액은 [ W " + (Math.round(salePrice * 10.0) / 10.0) + " ] 입니다.");
+                System.out.println("\n1. 돌아가기");
+                System.out.print("\n여기에 번호를 입력하세요 => ");
+            }
+            case 1 -> {
+                System.out.println("================================================");
                 System.out.println("[ Burgers Menu ]");
                 for (Product b : burgerArr) {
                     i++;
-                    System.out.println(i + ". " + b.getName() + "| W "+b.getPrice() + " | " + b.getExplanation());
+                    System.out.println(i + ". " + b.toString());
                 }
                 System.out.print("\n여기에 번호를 입력하세요 => ");
-                break;
             }
-            case 2 : {
+            case 2 -> {
+                System.out.println("================================================");
                 System.out.println("[ FrozenCustard Menu ]");
                 for (Product b : frozenCustardArr) {
                     i++;
-                    System.out.println(i + ". " + b.getName() + "| W "+b.getPrice() + " | " + b.getExplanation());
+                    System.out.println(i + ". " + b.toString());
                 }
                 System.out.print("\n여기에 번호를 입력하세요 => ");
-                break;
             }
-            case 3 : {
+            case 3 -> {
+                System.out.println("================================================");
                 System.out.println("[ Drink Menu ]");
                 for (Product b : drinkArr) {
                     i++;
-                    System.out.println(i + ". " + b.getName() + "| W "+b.getPrice() + " | " + b.getExplanation());
+                    System.out.println(i + ". " + b.toString());
                 }
                 System.out.print("\n여기에 번호를 입력하세요 => ");
-                break;
 
             }
-            case 4 : {
+            case 4 -> {
+                System.out.println("================================================");
                 System.out.println("[ Beer Menu ]");
                 for (Product b : beerArr) {
                     i++;
-                    System.out.println(i + ". " + b.getName() + "| W "+b.getPrice() + " | " + b.getExplanation());
+                    System.out.println(i + ". " + b.toString());
                 }
                 System.out.print("\n여기에 번호를 입력하세요 => ");
-                break;
 
             }
-            case 5 : { // order
-                    double total = 0.0;
-                    System.out.println("아래와 같이 주문하시겠습니까?\n");
-                    System.out.println("[ Orders ]");
-                    for (int j = 0; j < Order.wish.size(); j++) {
-                        System.out.println(Order.wish.get(j).getName() + "| W "+ Order.wish.get(j).getPrice() + " | " + Order.wish.get(j).getExplanation());
-                    }
-                    for (int j = 0; j < Order.wish.size(); j++) {
-                        total += Order.wish.get(j).getPrice();
-                    }
-                    System.out.println("\n[ Total ]");
-                    System.out.println("W " + total);
-                    System.out.println("\n1. 주문      2. 메뉴판");
+            case 5 -> { // order
+                double total = 0.0;
+                System.out.println("================================================");
+                System.out.println("아래와 같이 주문하시겠습니까?\n");
+                System.out.println("[ Orders ]");
+                for (int j = 0; j < Order.cntWish.size(); j++) {
+//                    System.out.println(Order.wish.get(j).getName() + "| W "+ Order.wish.get(j).getPrice() + " | " + Order.wish.get(j).getExplanation());
+                    System.out.println(Order.cntWish.get(j).toString_cnt());
+                }
+                for (int j = 0; j < Order.wish.size(); j++) {
+                    total += Order.wish.get(j).getPrice();
+                }
+                System.out.println("\n[ Total ]");
+                System.out.println("W " + (Math.round(Order.salePriceTotal() * 10.0) / 10.0));
+                System.out.println("\n1. 주문      2. 메뉴판");
                 System.out.print("\n여기에 번호를 입력하세요 => ");
-                break;
             }
-            case 6 : { // cancel
+            case 6 -> { // cancel
+                System.out.println("================================================");
                 System.out.println("\n진행하던 주문을 취소하시겠습니까?");
                 System.out.println("1. 확인        2. 취소 ");
                 System.out.print("\n여기에 번호를 입력하세요 => ");
-                break;
+            }
+            default -> {
+                System.out.println("================================================");
+                System.out.println("번호를 잘못 입력하셨습니다.");
+                System.out.println("메인 메뉴로 돌아갑니다.");
             }
         }
     }
 
+    //burgers 추가 옵션
+    public static void addOptions(int n, int m) {
+        System.out.println("================================================");
+        System.out.println(products[n-1][m-1].toString());
+        System.out.println("옵션을 추가하시겠습니까?");
+        System.out.println("1. 사이즈 업( + W 3.0 )     2. 추가 안함");
+        System.out.print("\n여기에 번호를 입력하세요 => ");
+    }
+
+    public static void sizeUp(int n, int m, int e) {
+        products[n-1][m-1].setName(products[n-1][m-1].getName()+"(사이즈업)"); // 메뉴이름 Burgers(사이즈업)
+        products[n-1][m-1].setPrice(products[n-1][m-1].getPrice()+3.0); // 메뉴 가격 +3.0
+    }
+
     // 구매 화면
     public static void wishList(int n, int m) {
-        System.out.println("\"" + products[n-1][m-1].getName() + "| W "+products[n-1][m-1].getPrice() + " | " + products[n-1][m-1].getExplanation() + "\"");
+        System.out.println("================================================");
+        System.out.println("\"" + products[n-1][m-1].toString() + "\"");
         System.out.println("위 메뉴를 장바구니에 추가하시겠습니까?");
         System.out.println("1. 확인        2. 취소");
         System.out.print("\n여기에 번호를 입력하세요 => ");
-
     }
 
     //주문 완료 화면
     static int c;
     public static void orderComplete() throws InterruptedException {
+        Order.totalWish.addAll(Order.wish);
         c = sc.nextInt();
         if(c == 1) {
             Order.wish.clear();
+            Order.cntWish.clear();
+            System.out.println("================================================");
             System.out.println("주문이 완료되었습니다!");
             System.out.println("대기번호는 [ " + (cnt++) +" ] 번 입니다.");
             System.out.println("(3초 후 메뉴판으로 돌아갑니다.) \n");
@@ -163,15 +203,32 @@ public class Kiosk {
 
     // 장바구니가 비어있을 때
     public static void emptiedWish() {
-        System.out.println("\n장바구니가 비어있습니다.");
+        System.out.println("================================================");
+        System.out.println("장바구니가 비어있습니다.");
         System.out.println("메뉴판으로 돌아갑니다\n");
     }
 
     // 장바구니에 추가
     public static void putInBasket(int n, int m, int k) {
-        if(k == 1) {
-            Order.wish.add(Kiosk.products[n-1][m-1]);
-            System.out.println(Kiosk.products[n-1][m-1].getName()+"가 장바구니에 추가되었습니다. \n");
+        if (k != 1) {
+            System.out.println("취소되었습니다.");
+        } else {
+            Order.wish.add(products[n-1][m-1]);
+            boolean exists = false;
+            //기존 장바구니에 상품이 있는 경우
+            for(int i=0; i<Order.cntWish.size(); i++) {
+                if (Order.cntWish.get(i).toString().equals(Kiosk.products[n-1][m-1].toString())) {
+                    exists = true;
+                    Product existingProduct = Order.cntWish.get(i);
+                    existingProduct.setCount(existingProduct.getCount() + 1); // 상품의 카운트 +1
+                    System.out.println(existingProduct.getName() + "가 장바구니에 추가되었습니다.");
+                }
+            }
+            //기존 장바구니에 상품이 없는 경우
+            if(!exists) {
+                Order.cntWish.add(products[n-1][m-1]);
+                System.out.println(products[n-1][m-1].getName() + " 가 장바구니에 추가되었습니다.");
+            }
         }
     }
 }
