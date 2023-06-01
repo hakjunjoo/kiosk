@@ -38,7 +38,8 @@ public class Main {
                     if(d==1) {
                         continue;
                     }
-                } else { // case 1,2,3,4
+                }
+                else { // case 1,2,3,4
                     Kiosk.choiceMenu(n); // 상품 메뉴판 출력
                 }
             } catch (InterruptedException e) {
@@ -47,7 +48,7 @@ public class Main {
 
             // 3. 장바구니
             int m = sc.nextInt();
-            if (m == 1){ //burgers 추가옵션
+            if (n == 1){ //burgers 추가옵션
                 Kiosk.addOptions(n, m);
                 int e = sc.nextInt();
                 if (e == 1) { // 사이즈 업을 선택하면

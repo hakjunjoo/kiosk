@@ -21,8 +21,4 @@ public class Menu {
         return explanation;
     }
 
-    public void setExplanation(String explanation) {
-        this.explanation = explanation;
-    }
-
 }
