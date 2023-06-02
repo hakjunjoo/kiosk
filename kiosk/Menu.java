@@ -21,4 +21,9 @@ public class Menu {
         return explanation;
     }
 
+    @Override
+    public String toString() {
+        return getName() + " | " + getExplanation();
+    }
+
 }
