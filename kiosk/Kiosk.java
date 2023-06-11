@@ -120,7 +120,7 @@ public class Kiosk {
     }
 
     public static void sizeUp(int n, int m) {
-        products[n-1][m-1].setName(products[n-1][m-1].getName()+"(사이즈업)"); // 메뉴이름 Burgers(사이즈업)
+        products[n-1][m-1].setName("(사이즈업)"+products[n-1][m-1].getName()); // 메뉴이름 (사이즈업)Burgers
         products[n-1][m-1].setPrice(products[n-1][m-1].getPrice()+3.0); // 메뉴 가격 +3.0
     }
 
@@ -136,9 +136,9 @@ public class Kiosk {
     //주문 완료 화면
     static int c;
     public static void orderComplete() throws InterruptedException {
-        Order.getTotalWish().addAll(Order.getWish());
         c = sc.nextInt();
         if(c == 1) {
+            Order.getTotalWish().addAll(Order.getWish());
             Order.getWish().clear();
             Order.getCntWish().clear();
             System.out.println("\n================================================\n");
