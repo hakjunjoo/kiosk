@@ -183,11 +183,11 @@ public class Kiosk2 {
             System.out.println("취소되었습니다.");
             MenuList.menuData(); //바뀌었던 메뉴이름 초기화
         } else {
-            Order.getWish().add(products[menuSelect-1][detailMenuSelect-1]);
+            Order.getTotalWish().add(products[menuSelect-1][detailMenuSelect-1]);
             boolean exists = false;
             //기존 장바구니에 상품이 있는 경우
             for(int i=0; i<Order.getCntWish().size(); i++) {
-                if (Order.getCntWish().get(i).toString().equals(Kiosk.products[menuSelect-1][detailMenuSelect-1].toString())) {
+                if (Order.getCntWish().get(i).toString().equals(Kiosk2.products[menuSelect-1][detailMenuSelect-1].toString())) {
                     exists = true;
                     Product existingProduct = Order.getCntWish().get(i);
                     existingProduct.setCount(existingProduct.getCount() + 1); // 상품의 카운트 +1
@@ -205,7 +205,7 @@ public class Kiosk2 {
     } //putInBasket
 
     private static void orderList() {
-        if(Order.getWish().size() == 0) {
+        if(Order.getCntWish().size() == 0) {
             System.out.println("\n================================================\n");
             System.out.println("현재 장바구니가 비어있습니다.");
             System.out.println("초기화면으로 돌아갑니다.");
@@ -218,7 +218,7 @@ public class Kiosk2 {
                 System.out.println(Order.getCntWish().get(j).toString_cnt());
             }
             System.out.println("\n[ Total ]");
-            System.out.println("W " + (Math.round(Order.salePriceTotal() * 10.0) / 10.0));
+            System.out.println("W " + (Math.round(salePriceTotal() * 10.0) / 10.0));
             System.out.println("\n위와 같이 주문하시겠습니까?");
             System.out.println("\n1. 주문      2. 메뉴로 돌아가기");
 
@@ -237,9 +237,17 @@ public class Kiosk2 {
         }//else
     }//orderList
 
+    private static double salePriceTotal() {
+        double salePrice = 0.0;
+        for (int i = 0; i < Order.getCntWish().size(); i++) {
+            salePrice += Order.getCntWish().get(i).getPrice() * Order.getCntWish().get(i).getCount();
+        }
+        return salePrice;
+    }
+
     private static void orderComplete() {
-        Order.getTotalWish().addAll(Order.getWish());
-        Order.getWish().clear();
+//        Order.getTotalWish().addAll(Order.getWish());
+//        Order.getWish().clear();
         Order.getCntWish().clear();
         System.out.println("\n================================================\n");
         System.out.println("주문이 완료되었습니다!");
@@ -249,15 +257,43 @@ public class Kiosk2 {
     } //orderComplete
 
     private static void orderCancel() {
-        if(Order.getWish().size() == 0) {
+        if(Order.getCntWish().size() == 0) {
             System.out.println("\n================================================\n");
             System.out.println("현재 장바구니가 비어있어서 취소할 주문이 없습니다.");
             System.out.println("초기화면으로 돌아갑니다.\n");
             delay(1000);
         } else {
+            System.out.println("현재 주문한 내용은 다음과 같습니다.");
+            System.out.println("현재 까지의 주문 목록은 다음과 같습니다.");
+            System.out.println("[ Orders ]");
+            for (int j = 0; j < Order.getCntWish().size(); j++) {
+                System.out.println((j+1)+ ". " + Order.getCntWish().get(j).toString_cnt());
+            }
+
+            System.out.println("\n 취소할 주문의 번호를 입력해주세요.");
+            System.out.print("여기에 번호를 입력하세요 => ");
+            int orderCancelNumber = sc.nextInt();
+
+            if(Order.getCntWish().get(orderCancelNumber-1).getCount() == 1) { // 주문 개수가 1개인 경우는 list에서 원소를 remove한다.
+                for(int i = 0; i < Order.getCntWish().size(); i++) {
+                    if(orderCancelNumber == i+1) {
+                        System.out.println(Order.getCntWish().get(i).toString_cnt());
+                        System.out.println("해당 주문을 취소했습니다.");
+                        Order.getCntWish().remove(i);
+                        break;
+                    }
+                }
+            } else { // 주문 개수가 2개 이상인 경우는 list에서 cnt를 줄인다.
+                System.out.println(Order.getCntWish().get(orderCancelNumber-1).toString_cnt());
+                System.out.println("몇 개를 취소하시겠습니까?");
+
+                // 더 구현해야함
+            }
+
 
         }
     }
+
     private static void delay(long millis) {
         try {
             Thread.sleep(millis);
